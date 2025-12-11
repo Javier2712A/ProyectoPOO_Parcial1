@@ -1,266 +1,317 @@
-# ProyectoPOO_Parcial1
-# Sistema de Gestión de Servicios de Cine y Eventos
+#  Sistema de Gestión de Servicios de Cine/Eventos
 
-## Descripción
+##  Información del Proyecto
 
-Sistema orientado a objetos para la gestión de servicios de cine y eventos especiales. Implementa conceptos fundamentales de POO como **encapsulamiento**, **herencia** y **polimorfismo** en Python.
+**Asignatura:** Programación Orientada a Objetos  
+**Proyecto:** Primer Parcial  
+**Grupo:** 9 - Gestión de Servicios de Cine/Eventos  
 
----
+###  Integrantes
+ - [Agusto Gómez Javier Rodolfo]
+ - [Castillo Sánchez Marco Elías]
+ - [Santamaría Cevallos Viviana Sofía]
+ - [Luis Miguel Soriano Arias]
 
-## Autores
-
-- Agusto Gómez Javier Rodolfo
-- Castillo Sánchez Marco Elías
-- Santamaría Cevallos Viviana Sofía
-- Luis Miguel Soriano Arias
-
-**Fecha:** 7/12/2025
 
 ---
 
-## Arquitectura del Sistema
+##  Descripción del Proyecto
 
-### Diagrama de Clases
+Sistema completo de gestión para servicios de cine y eventos especiales que implementa los conceptos fundamentales de Programación Orientada a Objetos:
 
-```
-Cliente                    Servicio (Clase Base)
-   |                            |
-   |                    +-------+-------+
-   |                    |               |
-   |            ProyeccionCine    EventoEspecial
-   |
-   +----> GestorServicios
-```
+- **Herencia:** Estructura jerárquica con una superclase `Servicio` y dos subclases `ServicioCine` y `ServicioEvento`
+- **Encapsulamiento:** Todos los atributos son privados con acceso controlado mediante `@property` y validaciones
+- **Polimorfismo:** Métodos que operan sobre listas de objetos de la superclase sin verificar tipos específicos
 
 ---
 
-## Estructura del Proyecto
+##  Estructura del Proyecto
 
 ```
-proyecto/
+ProyectoPOO_Parcial1/
 │
-├── Cliente.py              # Clase Cliente con encapsulamiento
-├── Servicio.py            # Clase base para servicios
-├── ProyeccionCine.py      # Servicio de proyección de películas
-├── EventoEspecial.py      # Servicio de eventos especiales
-├── GestorServicios.py     # Gestor polimórfico de servicios
-└── Main.py                # Archivo principal de pruebas
+├── servicio.py              # Clase base abstracta Servicio
+├── servicio_cine.py         # Clase hija ServicioCine
+├── servicio_evento.py       # Clase hija ServicioEvento
+├── cliente.py               # Clase adicional Cliente
+├── gestor_servicios.py      # Clase adicional GestorServicios
+├── main.py                  # Programa principal integrador
+└── README.md                # Este archivo
 ```
 
 ---
 
-## Componentes del Sistema
+##  Conceptos POO Implementados
 
-### 1. **Cliente** (`Cliente.py`)
-Representa un cliente de la organización.
+###  Herencia
 
-**Atributos:**
-- `id_cliente`: Identificador único del cliente
-- `nombre_completo`: Nombre completo del cliente (mínimo 3 caracteres)
+**Diagrama de Clases:**
 
-**Características:**
-- Encapsulamiento con properties
-- Validaciones de datos
-- Getters y setters
-
-### 2. **Servicio** (`Servicio.py`)
-Clase base abstracta para todos los servicios.
-
-**Atributos:**
-- `id_servicio`: Identificador del servicio
-- `precio_base`: Precio base del servicio (≥ $1.00)
-
-**Métodos principales:**
-- `calcular_costo_final()`: Método polimórfico para calcular el costo
-- `mostrar_info()`: Información básica del servicio
-
-**Constantes:**
-- `VALOR_MINIMO_PRECIO = 1.0`
-
-### 3. **ProyeccionCine** (`ProyeccionCine.py`)
-Hereda de `Servicio`. Representa proyecciones de películas.
-
-**Atributos adicionales:**
-- `descuento_aplicable`: Porcentaje de descuento (0.0 - 1.0)
-- `nombre_pelicula`: Nombre de la película
-
-**Cálculo de costo:**
-```python
-costo_final = precio_base × (1 - descuento_aplicable)
+```
+              Servicio (ABC)
+                   |
+        ┌──────────┴──────────┐
+        |                     |
+  ServicioCine        ServicioEvento
 ```
 
-### 4. **EventoEspecial** (`EventoEspecial.py`)
-Hereda de `Servicio`. Representa eventos especiales (conciertos, torneos, etc.).
+- **Servicio (Superclase):** Clase abstracta base que define atributos y métodos comunes
+  - Atributos: `codigo`, `nombre`, `fecha`, `precio_base`, `estado`
+  - Métodos abstractos: `calcular_precio_total()`, `mostrar_info()`
 
-**Atributos adicionales:**
-- `cargo_logistica`: Cargo adicional por logística (≥ $5.00)
-- `nombre_evento`: Nombre del evento
+- **ServicioCine (Subclase):** Hereda de Servicio y agrega:
+  - Atributos: `pelicula`, `sala`, `es_3d`, `es_vip`, `asientos_vendidos`
+  - Implementa cálculo de precio con recargos por 3D/VIP y descuentos matine
 
-**Cálculo de costo:**
+- **ServicioEvento (Subclase):** Hereda de Servicio y agrega:
+  - Atributos: `artista`, `tipo_evento`, `duracion_horas`, `zona`, `entradas_vendidas`
+  - Implementa cálculo de precio con recargos por zona y meet & greet
+
+###  Encapsulamiento
+
+ **Todos los atributos son privados** (prefijo `_`)  
+ **Acceso controlado mediante `@property`**  
+ **Modificación mediante `@setter` con validaciones**
+
+**Ejemplo:**
 ```python
-costo_final = precio_base + cargo_logistica
+@property
+def precio_base(self) -> float:
+    return self._precio_base
+
+@precio_base.setter
+def precio_base(self, valor: float):
+    if valor < 0:
+        raise ValueError("El precio no puede ser negativo")
+    self._precio_base = valor
 ```
 
-**Constantes:**
-- `CARGO_MINIMO_LOGISTICA = 5.0`
+###  Polimorfismo
 
-### 5. **GestorServicios** (`GestorServicios.py`)
-Gestiona colecciones de servicios de forma polimórfica.
+El sistema implementa **2 métodos polimórficos obligatorios** en `GestorServicios`:
 
-**Métodos principales:**
-- `agregar_servicio()`: Agrega un servicio a la lista
-- `sumar_costos_totales()`: Suma polimórfica de costos
-- `generar_reporte_detallado()`: Genera reporte usando `__str__` de cada servicio
+#### Método 1: `calcular_ingresos_totales(servicios: List[Servicio])`
+Calcula ingresos totales de una lista de servicios sin importar si son de cine o eventos.
+
+```python
+def calcular_ingresos_totales(self, servicios: List[Servicio]) -> float:
+    total = 0.0
+    for servicio in servicios:
+        # Polimorfismo: funciona con ServicioCine y ServicioEvento
+        precio = servicio.calcular_precio_total()
+        # ... resto del cálculo
+    return total
+```
+
+#### Método 2: `generar_reporte_servicios(servicios: List[Servicio])`
+Genera reportes detallados llamando a `mostrar_info()` de cada servicio.
+
+```python
+def generar_reporte_servicios(self, servicios: List[Servicio]) -> str:
+    for servicio in servicios:
+        # Polimorfismo: cada clase implementa su propia versión
+        reporte += servicio.mostrar_info()
+    return reporte
+```
 
 ---
 
-## Uso del Sistema
+##  Instrucciones de Ejecución
 
-### Instalación
+### Requisitos Previos
+- Python 3.8 o superior
+- Ninguna librería externa requerida (solo librerías estándar)
+
+### Ejecutar el Programa Principal
 
 ```bash
-# Clonar el repositorio
-git clone <url-del-repositorio>
-cd proyecto
-
-# No requiere instalación de dependencias (Python estándar)
+python main.py
 ```
 
-### Ejecución
+### Ejecutar Pruebas Individuales de Cada Módulo
 
 ```bash
-# Ejecutar todas las pruebas
-python Main.py
+# Probar clase Servicio
+python servicio.py
 
-# Ejecutar módulos individuales
-python Cliente.py
-python Servicio.py
-python ProyeccionCine.py
-python EventoEspecial.py
-python GestorServicios.py
-```
+# Probar ServicioCine
+python servicio_cine.py
 
-### Ejemplo de Uso
+# Probar ServicioEvento
+python servicio_evento.py
 
-```python
-from Cliente import Cliente
-from ProyeccionCine import ProyeccionCine
-from EventoEspecial import EventoEspecial
-from GestorServicios import GestorServicios
+# Probar Cliente
+python cliente.py
 
-# Crear cliente
-cliente = Cliente("C001", "Juan Pérez")
-
-# Crear servicios
-cine = ProyeccionCine("S101", 15.00, 0.10, "Avatar 2")
-evento = EventoEspecial("S205", 50.00, 7.50, "Concierto Rock")
-
-# Gestionar servicios
-gestor = GestorServicios()
-gestor.agregar_servicio(cine)
-gestor.agregar_servicio(evento)
-
-# Calcular total
-total = gestor.sumar_costos_totales()
-print(f"Total: ${total:.2f}")
-
-# Generar reporte
-print(gestor.generar_reporte_detallado())
+# Probar GestorServicios
+python gestor_servicios.py
 ```
 
 ---
 
-## Características Principales
+##  Funcionalidades del Sistema
 
-### Encapsulamiento
-- Atributos privados con prefijo `_`
-- Propiedades (`@property`) para acceso controlado
-- Setters con validaciones robustas
+### Menú Principal
+
+1. **Ver todos los servicios** - Lista completa de funciones de cine y eventos
+2. **Ver servicios disponibles** - Solo servicios con estado "Disponible"
+3. **Realizar venta** - Proceso de venta de entradas a clientes
+4. **Ver clientes** - Información de clientes registrados
+5. **Generar reporte completo** - Usa método polimórfico para reportes
+6. **Calcular ingresos totales** - Usa método polimórfico para cálculos
+7. **Ver estadísticas** - Resumen general del sistema
+8. **Salir** - Terminar el programa
+
+### Características Destacadas
+
+ **Gestión de Cine:**
+- Funciones regulares, 3D y VIP
+- Descuentos automáticos para funciones matine
+- Control de ocupación de salas
+
+ **Gestión de Eventos:**
+- Conciertos, obras de teatro, stand-up comedy, ópera, ballet
+- Zonas: General, Preferencial, VIP
+- Opción de meet & greet con artistas
+
+ **Sistema de Clientes:**
+- Registro completo de datos
+- Programa de fidelidad (clientes premium)
+- Descuentos especiales (15% para premium)
+- Acumulación de puntos
+
+ **Gestión Centralizada:**
+- Control total de servicios y clientes
+- Reportes automáticos
+- Estadísticas en tiempo real
+- Sistema de ventas integrado
+
+---
+
+##  Ejemplos de Uso
+
+### Crear un Servicio de Cine
+
+```python
+cine = ServicioCine(
+    codigo="C001",
+    nombre="Estreno de la Semana",
+    fecha=datetime(2024, 12, 15, 20, 30),
+    precio_base=8.50,
+    pelicula="Dune: Part Two",
+    sala=1,
+    es_3d=True,
+    es_vip=False
+)
+```
+
+### Crear un Evento
+
+```python
+evento = ServicioEvento(
+    codigo="E001",
+    nombre="Rock en Vivo",
+    fecha=datetime(2024, 12, 20, 20, 0),
+    precio_base=45.00,
+    artista="Los Rockeros",
+    tipo_evento="Concierto",
+    duracion_horas=2.5,
+    zona="VIP"
+)
+```
+
+### Demostrar Polimorfismo
+
+```python
+servicios = [cine1, cine2, evento1, evento2]  # Lista mixta
+
+# Método polimórfico 1
+ingresos = gestor.calcular_ingresos_totales(servicios)
+
+# Método polimórfico 2
+reporte = gestor.generar_reporte_servicios(servicios)
+```
+
+---
+
+##  Evidencias
+
+### Capturas de Pantalla
+
+![Ejecución del programa mostrando fecha y hora del sistema]
+<img width="1600" height="900" alt="Captura de pantalla 2025-12-10 223535" src="https://github.com/user-attachments/assets/ebfa3a55-96d5-4d16-94b8-1f077eccecf1" />
+<img width="1594" height="356" alt="Captura de pantalla 2025-12-10 223850" src="https://github.com/user-attachments/assets/59b336d8-61f6-4f4b-85bc-890c5fd9a81d" />
+
+
+### Video Explicativo
+
+ **Link al video:** [URL del video en Google Drive/YouTube]
+
+**Duración:** ≤ 2 minutos
+
+**Contenido del video:**
+1. Explicación de las 5 clases creadas
+2. Demostración de herencia
+3. Demostración de encapsulamiento (properties)
+4. Demostración de polimorfismo (2 métodos)
+5. Ejecución final del programa
+
+---
+
+##  Checklist de Requisitos Cumplidos
+
+-  Mínimo 5 clases implementadas
+-  1 superclase (Servicio)
+-  2 subclases que heredan (ServicioCine, ServicioEvento)
+-  2 clases adicionales (Cliente, GestorServicios)
+-  Todos los atributos privados con `_`
+-  `@property` y `@setter` en todas las clases
+-  Validaciones en todos los setters
+-  2 métodos polimórficos obligatorios
+-  Nombres en snake_case (archivos y variables)
+-  Clases en PascalCase
+-  Código con PEP8
+-  Comentarios claros y docstrings
+-  Programa main.py funcional
+-  Main de prueba en cada módulo
+-  README completo
+-  Capturas de pantalla con fecha/hora
+-  Video explicativo
+
+---
+
+##  Conceptos Clave Demostrados
 
 ### Herencia
-- Clase base `Servicio` con lógica común
-- Clases derivadas especializadas
-- Reutilización de código mediante `super()`
+- Reutilización de código
+- Jerarquía de clases
+- Métodos abstractos
+- Super() para llamar al constructor padre
+
+### Encapsulamiento
+- Atributos privados
+- Getters y setters
+- Validación de datos
+- Protección de la integridad de datos
 
 ### Polimorfismo
-- Método `calcular_costo_final()` sobrescrito en cada clase
-- `GestorServicios` opera sin conocer tipos específicos
-- Método `__str__()` personalizado por clase
+- Métodos que trabajan con la superclase
+- Comportamiento específico en cada subclase
+- Duck typing de Python
+- Listas heterogéneas de objetos
 
 ---
 
-## Tests Incluidos
+##  Notas Adicionales
 
-El archivo `Main.py` ejecuta 4 baterías de pruebas:
-
-1. **Test Cliente**: Validaciones de encapsulamiento
-2. **Test Servicio Base**: Validaciones de precio mínimo
-3. **Test Clases Hijas**: Lógica de cálculo de costos
-4. **Test Gestor**: Polimorfismo en acción
-
-**Salida esperada:**
-```
-Suma Total: $81.00
-Validaciones exitosas
-Polimorfismo demostrado
-```
+- El código sigue las convenciones PEP8
+- Cada archivo tiene su propio main de prueba
+- El sistema es completamente funcional e interactivo
+- Se incluyen validaciones robustas en todas las clases
+- Los comentarios explican la lógica de negocio
 
 ---
 
-## Ejemplos de Cálculo
-
-### ProyeccionCine
-```
-Precio Base: $20.00
-Descuento: 15%
-Costo Final: $20.00 × (1 - 0.15) = $17.00
-```
-
-### EventoEspecial
-```
-Precio Base: $75.00
-Cargo Logística: $10.00
-Costo Final: $75.00 + $10.00 = $85.00
-```
-
----
-
-## Validaciones Implementadas
-
-| Clase | Atributo | Validación |
-|-------|----------|------------|
-| Cliente | `nombre_completo` | ≥ 3 caracteres, no vacío |
-| Cliente | `id_cliente` | No vacío |
-| Servicio | `precio_base` | ≥ $1.00 |
-| ProyeccionCine | `descuento_aplicable` | 0.0 ≤ x ≤ 1.0 |
-| EventoEspecial | `cargo_logistica` | ≥ $5.00 |
-
----
-
-## Requisitos
-
-- **Python:** 3.7+
-- **Sistema Operativo:** Windows, Linux, macOS
-- **Dependencias:** Ninguna (usa biblioteca estándar)
-
----
-
-## Licencia
-
-Este proyecto es de uso académico y educativo.
-
----
-
-## Contribuciones
-
-Este es un proyecto académico. Para sugerencias o mejoras, contactar a los autores.
-
----
-
-## Contacto
-
-Para consultas sobre el proyecto, contactar a través del repositorio de GitHub.
-
----
-
-**Desarrollado como parte del curso de Programación Orientada a Objetos**
+**Fecha de entrega:** 10 / 12 / 2025 
+**Institución:** Universidad estatal de Guayaquil 
+**Docente:** Guillermo Valarezo Guzmán
