@@ -250,7 +250,7 @@ reporte = gestor.generar_reporte_servicios(servicios)
 
 ### Video Explicativo
 
- **Link al video:** [URL del video en Google Drive/YouTube]
+ **Link al video:** https://drive.google.com/drive/folders/125PExJ3tj-7b11eWwFD68Ed7r92_wJkQ
 
 **Duración:** ≤ 2 minutos
 
@@ -317,6 +317,6 @@ reporte = gestor.generar_reporte_servicios(servicios)
 
 ---
 
-**Fecha de entrega:** [10 / 12 / 2025] 
-**Institución:** [Universidad estatal de Guayaquil] 
-**Docente:** [Guillermo Valarezo Guzmán]
+**Fecha de entrega:** 10 / 12 / 2025
+**Institución:** Universidad estatal de Guayaquil
+**Docente:** Guillermo Valarezo Guzmán
