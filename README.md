@@ -239,8 +239,12 @@ reporte = gestor.generar_reporte_servicios(servicios)
 ### Capturas de Pantalla
 
 ![Ejecución del programa mostrando fecha y hora del sistema]
-<img width="1600" height="900" alt="Captura de pantalla 2025-12-10 223535" src="https://github.com/user-attachments/assets/ebfa3a55-96d5-4d16-94b8-1f077eccecf1" />
-<img width="1594" height="356" alt="Captura de pantalla 2025-12-10 223850" src="https://github.com/user-attachments/assets/59b336d8-61f6-4f4b-85bc-890c5fd9a81d" />
+<img width="1600" height="900" alt="Captura de pantalla 2025-12-10 223535" src="https://github.com/user-attachments/assets/a19a4cd3-3d9f-4d7b-9c4e-1a99ac65e99c" />
+<img width="1599" height="356" alt="Captura de pantalla 2025-12-10 223825" src="https://github.com/user-attachments/assets/6b0c9566-acfb-49f8-8446-1d35d59a1ae4" />
+<img width="1594" height="356" alt="Captura de pantalla 2025-12-10 223850" src="https://github.com/user-attachments/assets/acb51c75-b1ac-4bdc-97a8-6b9a2de1da8d" />
+<img width="1599" height="358" alt="Captura de pantalla 2025-12-10 224655" src="https://github.com/user-attachments/assets/82dc0874-b553-4ab6-9572-7dcd071dcaab" />
+<img width="1600" height="900" alt="Captura de pantalla 2025-12-10 224706" src="https://github.com/user-attachments/assets/4008979d-c00a-4a0b-8ae5-4c82a29f7a1d" />
+<img width="1599" height="354" alt="Captura de pantalla 2025-12-10 224424" src="https://github.com/user-attachments/assets/d1ad3351-2084-4d58-8c50-d5eb1abc5f47" />
 
 
 ### Video Explicativo
